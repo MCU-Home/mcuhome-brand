@@ -25,16 +25,13 @@ All four SVGs share one geometry on a `0 0 64 64` viewBox; the light and dark
 variants differ only in the color of the pins. The door is a real transparent
 cutout (an SVG mask), so the mark works on any background.
 
-`favicon-16-source.svg` is not a brand variant. It is the rasterization source
-for `favicon-16.png` alone: same simplified mark, but with a wider door,
-thicker wave strokes and larger pins, so the shapes survive a 16 x 16 pixel
-grid. Do not use it for display.
-
-The bitmaps are generated from the SVGs with `rsvg-convert` and ImageMagick:
+All raster assets are generated from `logo-simplified.svg` and
+`logo-simplified-on-dark.svg` — there is no separate source for any size —
+with `rsvg-convert` and ImageMagick:
 
 ```sh
 cd assets
-rsvg-convert -w 16 -h 16 favicon-16-source.svg -o favicon-16.png
+rsvg-convert -w 16 -h 16 logo-simplified.svg -o favicon-16.png
 rsvg-convert -w 32 -h 32 logo-simplified.svg -o favicon-32.png
 rsvg-convert -w 48 -h 48 logo-simplified.svg -o favicon-48.png
 magick favicon-16.png favicon-32.png favicon-48.png favicon.ico
@@ -42,6 +39,10 @@ rsvg-convert -w 338 -h 338 logo-simplified-on-dark.svg -o /tmp/mark.png
 magick -size 512x512 xc:'#1d1815' /tmp/mark.png -gravity center \
     -composite -alpha off -depth 8 -strip PNG24:avatar.png
 ```
+
+At 16 px the two simplified wave arcs are close enough that they read as one
+merged band with a lighter waist rather than two clearly separate arcs; 32 px
+and 48 px show both arcs separately.
 
 ## License
 
