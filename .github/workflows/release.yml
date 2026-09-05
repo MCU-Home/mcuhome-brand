@@ -1,0 +1,110 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# What a tag of this repository produces: one archive,
+# `mcuhome-brand-<version>.tar.zst`, attached to the GitHub release of
+# that tag. `<version>` is the tag without its leading `v`, so `v0.1.0`
+# builds `mcuhome-brand-0.1.0.tar.zst`.
+#
+# The archive root is flat on purpose — `style.css`, the asset files, the
+# license and the `LICENSES/` directory sit directly at the top, with no
+# wrapping folder. It is meant to be unpacked straight into a consuming
+# project's asset folder (`assets/mcuhome-brand/`), which is also the
+# path the README documents, so every reference from there resolves.
+# `examples/`, `scripts/` and the repository's own tooling stay out: they
+# describe how the brand is maintained, not what a consumer displays.
+#
+# Deterministic by construction: the member list is sorted, ownership is
+# zeroed, and every timestamp is the packaged commit's own committer
+# date, so the same tag built twice with the same tar and zstd yields the
+# same bytes.
+#
+# All actions are pinned to commit SHAs, not tags.
+
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The tag to package (must exist)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-archive:
+    name: Build (archive)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The archive is built from the tagged commit, so the tag has
+          # to be here.
+          fetch-depth: 0
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Build the archive
+        id: build
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          # The version is the tag without its `v`. A tag that does not
+          # carry one would name the archive after itself and produce a
+          # file whose name contradicts the release it hangs on.
+          version="${TAG#v}"
+          if [ "$version" = "$TAG" ]; then
+            echo "::error::the tag has to be v<version>, and $TAG is not" >&2
+            exit 1
+          fi
+
+          stage="$RUNNER_TEMP/stage"
+          mkdir -p "$stage" dist
+
+          # Flat root: the assets lose their folder, LICENSES/ keeps its
+          # own — it is a directory the SPDX identifiers point at.
+          cp style.css LICENSE "$stage/"
+          cp assets/* "$stage/"
+          cp -R LICENSES "$stage/"
+
+          # One timestamp for every member, taken from the packaged
+          # commit rather than from the moment of the run.
+          epoch="$(git log -1 --format=%ct)"
+
+          archive="dist/mcuhome-brand-$version.tar.zst"
+          tar --sort=name \
+              --owner=0 --group=0 --numeric-owner \
+              --mtime="@$epoch" \
+              --format=pax \
+              --pax-option='exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime' \
+              -C "$stage" -cf - . \
+            | zstd -19 -T1 -q -o "$archive"
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+
+      - name: Show what was built
+        run: |
+          set -euo pipefail
+          ls -l dist/
+          tar --zstd -tvf '${{ steps.build.outputs.archive }}'
+
+      - name: Attach it to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.build.outputs.tag }}
+          ARCHIVE: ${{ steps.build.outputs.archive }}
+        run: |
+          set -euo pipefail
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --title "$TAG" --generate-notes
+          fi
+          gh release upload "$TAG" "$ARCHIVE" --clobber

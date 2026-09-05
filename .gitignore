@@ -11,6 +11,11 @@ GEMINI.md
 .aider*
 .github/copilot-instructions.md
 
+# python — this repository has no Python source; the environment exists
+# only so the lint wrappers have their tools
+.venv
+dist/
+
 # editors
 .vscode/
 .idea/

@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+# SPDX-License-Identifier: Apache-2.0
+#
+# TOOL CONFIGURATION ONLY — this repository holds brand assets, a
+# stylesheet and two example pages; there is no Python code here and no
+# distribution to build. The file exists so the lint gate has its tools
+# and their settings in one place: the tools as a PEP 735 dependency
+# group ([dependency-groups] dev, installed with `pip install --group
+# dev`) rather than a requirements.txt, because a group installs
+# standalone — the same convention as every other MCUHome repository.
+#
+# No ruff here, unlike the other repositories: there is no Python source
+# for it to look at.
+
+[dependency-groups]
+dev = [
+  "codespell==2.4.3",
+  "reuse==5.0.2",
+  "pre-commit-hooks==5.0.0",
+]
+
+# Only .git is skipped: this repository holds no vendored or generated
+# text whose wording is not ours to correct. Kept out of the command line
+# so scripts/lint.d/codespell can run the plain tool.
+[tool.codespell]
+skip = "./.git"

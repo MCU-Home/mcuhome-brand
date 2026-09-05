@@ -220,13 +220,49 @@ becomes invalid at computed-value time and falls back to its inherited or
 initial value; a `var()` fallback does not help there, because the variable is
 defined. The three font tokens are unaffected.
 
-### Planned consumption
+### Releases
 
-A release will publish a single archive containing `style.css` and the assets,
-with the files at the archive root. The intended flow is to unpack it into a
-consuming project's asset folder, for example `assets/mcuhome-brand/`, and link
-`style.css` from there. The release workflow does not exist yet; until then,
-copy the files out of this repository.
+A tag publishes one archive, `mcuhome-brand-<version>.tar.zst`, attached to the
+GitHub release of that tag; `<version>` is the tag without its leading `v`. Its
+members sit at the archive root — `style.css`, the asset files, `LICENSE` and
+`LICENSES/` — so it unpacks straight into a consuming project's asset folder:
+
+```sh
+mkdir -p assets/mcuhome-brand
+tar --zstd -xf mcuhome-brand-<version>.tar.zst -C assets/mcuhome-brand
+```
+
+The `assets/` folder disappears in the process: `logo.svg` and `style.css` end
+up side by side, which is what the paths in this guide assume. What this
+repository needs for its own upkeep — this guide, the example pages, the
+tooling — is not part of the archive.
+
+## Development — how to work on this repository
+
+This repository has its own virtual environment in `.venv/`; nothing is
+installed into the system Python or into another repository's environment.
+There is no Python source here — the environment exists so the lint wrappers
+have their tools. `scripts/` holds the development tooling: `scripts/test` and
+`scripts/lint` dispatch the checks — `all` runs every one, `list` names them,
+`<name>` runs one — and each check is its own wrapper in `scripts/test.d/` or
+`scripts/lint.d/`. The wrappers select `.venv` themselves (never activate one by
+hand) and are exactly what CI runs, one job per check. There are no test
+wrappers: this repository holds nothing to execute.
+
+Needs Python ≥3.13 and a pip new enough for `--group` (25.1).
+
+```sh
+python3 -m venv .venv && .venv/bin/pip install -U pip && .venv/bin/pip install --group dev
+```
+
+```sh
+scripts/test all
+scripts/lint all
+```
+
+The rules that hold across every MCUHome repository — coding standards,
+commits, licensing — are in the organization's
+[contributing guide](https://github.com/mcu-home/.github/blob/main/CONTRIBUTING.md).
 
 ## License
 
