@@ -111,10 +111,11 @@ name is used in both themes.
 | Background, alternate | `--mcuhome-bg-alt` | `#f4efe9` | `#231d17` |
 | Pin gray (matches the mark) | `--mcuhome-pin-gray` | `#b0a89e` | `#8a8078` |
 
-`--mcuhome-accent-strong` is the hover/pressed variant of the accent: darker
-on light backgrounds, brighter on dark ones. `--mcuhome-bg-alt` sits between
-background and surface and is meant for subtly separated areas such as table
-headers or code blocks.
+`--mcuhome-accent-strong` is a stronger emphasis variant of the accent: darker
+on light backgrounds, brighter on dark ones. The primary button in the example
+pages uses it as the base color, with `--mcuhome-accent` on hover.
+`--mcuhome-bg-alt` sits between background and surface and is meant for
+subtly separated areas such as table headers or code blocks.
 
 ### Semantic tokens
 
