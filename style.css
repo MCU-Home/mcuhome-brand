@@ -1,0 +1,92 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The MCUHome Contributors
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * MCUHome brand tokens: one unified set of CSS custom properties. The
+ * light values are the defaults on `:root`; the dark values replace them
+ * under `prefers-color-scheme: dark`, so consumers reference a single
+ * variable name regardless of theme. This file does not load the Sora
+ * typeface itself — consumers that want it fetch it on their own (see the
+ * README for the font link).
+ */
+
+:root {
+  /* Core */
+  --mcuhome-accent: #d95513;
+  --mcuhome-accent-strong: #a8420f;
+  --mcuhome-ink: #221c18;
+  --mcuhome-muted: #6f6659;
+  --mcuhome-border: #e8e1d6;
+  --mcuhome-bg: #fdfbf8;
+  --mcuhome-surface: #ffffff;
+  --mcuhome-bg-alt: #f4efe9;
+  --mcuhome-pin-gray: #b0a89e;
+
+  /* Semantic: success */
+  --mcuhome-success: #3a7d44;
+  --mcuhome-success-tint: #e9f2ea;
+  --mcuhome-success-tint-border: #c5dcc9;
+  --mcuhome-success-on-tint: #2d6336;
+
+  /* Semantic: info */
+  --mcuhome-info: #2e6ca4;
+  --mcuhome-info-tint: #e7eff6;
+  --mcuhome-info-tint-border: #c2d6e6;
+  --mcuhome-info-on-tint: #26597f;
+
+  /* Semantic: warning */
+  --mcuhome-warning: #b07d0a;
+  --mcuhome-warning-tint: #f7f0da;
+  --mcuhome-warning-tint-border: #e2d3a8;
+  --mcuhome-warning-on-tint: #8a6106;
+
+  /* Semantic: error */
+  --mcuhome-error: #b3332b;
+  --mcuhome-error-tint: #f7e9e7;
+  --mcuhome-error-tint-border: #e3c2bd;
+  --mcuhome-error-on-tint: #8f2822;
+
+  /* Typography (identical in both themes) */
+  --mcuhome-font-heading: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mcuhome-font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mcuhome-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Core */
+    --mcuhome-accent: #ef7b33;
+    --mcuhome-accent-strong: #f49a5e;
+    --mcuhome-ink: #f4efe9;
+    --mcuhome-muted: #a89d90;
+    --mcuhome-border: #3d342c;
+    --mcuhome-bg: #1d1815;
+    --mcuhome-surface: #292219;
+    --mcuhome-bg-alt: #231d17;
+    --mcuhome-pin-gray: #8a8078;
+
+    /* Semantic: success */
+    --mcuhome-success: #5cab6b;
+    --mcuhome-success-tint: #292219;
+    --mcuhome-success-tint-border: #5cab6b;
+    --mcuhome-success-on-tint: #5cab6b;
+
+    /* Semantic: info */
+    --mcuhome-info: #6aa5d8;
+    --mcuhome-info-tint: #292219;
+    --mcuhome-info-tint-border: #6aa5d8;
+    --mcuhome-info-on-tint: #6aa5d8;
+
+    /* Semantic: warning */
+    --mcuhome-warning: #d99a1e;
+    --mcuhome-warning-tint: #292219;
+    --mcuhome-warning-tint-border: #d99a1e;
+    --mcuhome-warning-on-tint: #d99a1e;
+
+    /* Semantic: error */
+    --mcuhome-error: #dd6a5f;
+    --mcuhome-error-tint: #292219;
+    --mcuhome-error-tint-border: #dd6a5f;
+    --mcuhome-error-on-tint: #dd6a5f;
+  }
+}
