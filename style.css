@@ -27,6 +27,11 @@
   --mcuhome-bg-alt: light-dark(#f4efe9, #231d17);
   --mcuhome-pin-gray: light-dark(#b0a89e, #8a8078);
 
+  /* Semantic: accent */
+  --mcuhome-accent-tint: light-dark(#fdf5ee, #33291f);
+  --mcuhome-accent-tint-border: light-dark(#f2c9ab, #ef7b33);
+  --mcuhome-accent-on-tint: light-dark(#a8420f, #f49a5e);
+
   /* Semantic: success */
   --mcuhome-success: light-dark(#3a7d44, #5cab6b);
   --mcuhome-success-tint: light-dark(#e9f2ea, #292219);

@@ -117,6 +117,22 @@ pages uses it as the base color, with `--mcuhome-accent` on hover.
 `--mcuhome-bg-alt` sits between background and surface and is meant for
 subtly separated areas such as table headers or code blocks.
 
+### Accent tint
+
+The accent color itself (`--mcuhome-accent`) lives in the core tokens above;
+these three give it the same tinted-surface pattern the four semantic colors
+below already have — a tinted fill, a border for that fill, and the text
+color on it.
+
+| Token | Light | Dark |
+|---|---|---|
+| `--mcuhome-accent-tint` | `#fdf5ee` | `#33291f` |
+| `--mcuhome-accent-tint-border` | `#f2c9ab` | `#ef7b33` |
+| `--mcuhome-accent-on-tint` | `#a8420f` | `#f49a5e` |
+
+Purpose: tinted surfaces that carry the accent — chips, highlighted rows, the
+current-line highlight in editors.
+
 ### Semantic tokens
 
 Four states, four tokens each: the color itself, a tinted fill, a border for
