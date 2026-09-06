@@ -225,8 +225,9 @@ defined. The three font tokens are unaffected.
 
 A tag publishes one archive, `mcuhome-brand-<version>.tar.zst`, attached to the
 GitHub release of that tag; `<version>` is the tag without its leading `v`. Its
-members sit at the archive root — `style.css`, the asset files, `LICENSE` and
-`LICENSES/` — so it unpacks straight into a consuming project's asset folder:
+members sit at the archive root — `style.css`, the asset files, `LICENSE`,
+`LICENSES/` and `REUSE.toml` — so it unpacks straight into a consuming
+project's asset folder:
 
 ```sh
 mkdir -p assets/mcuhome-brand

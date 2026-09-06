@@ -7,12 +7,15 @@
 # builds `mcuhome-brand-0.1.0.tar.zst`.
 #
 # The archive root is flat on purpose — `style.css`, the asset files, the
-# license and the `LICENSES/` directory sit directly at the top, with no
+# license, `LICENSES/` and `REUSE.toml` sit directly at the top, with no
 # wrapping folder. It is meant to be unpacked straight into a consuming
 # project's asset folder (`assets/mcuhome-brand/`), which is also the
 # path the README documents, so every reference from there resolves.
-# `examples/`, `scripts/` and the repository's own tooling stay out: they
-# describe how the brand is maintained, not what a consumer displays.
+# `REUSE.toml` travels with the license files so an unpacked copy still
+# carries the machine-readable mapping from the raster assets to the
+# brand license. `examples/`, `scripts/` and the repository's own tooling
+# stay out: they describe how the brand is maintained, not what a
+# consumer displays.
 #
 # Deterministic by construction: the member list is sorted, ownership is
 # zeroed, and every timestamp is the packaged commit's own committer
@@ -71,7 +74,7 @@ jobs:
 
           # Flat root: the assets lose their folder, LICENSES/ keeps its
           # own — it is a directory the SPDX identifiers point at.
-          cp style.css LICENSE "$stage/"
+          cp style.css LICENSE REUSE.toml "$stage/"
           cp assets/* "$stage/"
           cp -R LICENSES "$stage/"
 
